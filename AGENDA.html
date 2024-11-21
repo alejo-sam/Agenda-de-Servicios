@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Servicios</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --header-bg: #4CAF50;
+            --header-text: white;
+            --form-bg: white;
+            --form-border: #ddd;
+            --form-button-bg: #4CAF50;
+            --form-button-hover: #45a049;
+            --table-header-bg: #4CAF50;
+            --table-header-text: white;
+            --table-row-hover: #f1f1f1;
+            --delete-button-bg: #f44336;
+            --delete-button-hover: #d32f2f;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1f1f1f;
+            --header-text: #4CAF50;
+            --form-bg: #1f1f1f;
+            --form-border: #333;
+            --form-button-bg: #4CAF50;
+            --form-button-hover: #66bb6a;
+            --table-header-bg: #333;
+            --table-header-text: #4CAF50;
+            --table-row-hover: #2c2c2c;
+            --delete-button-bg: #e57373;
+            --delete-button-hover: #ef5350;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.8em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2em;
+            border: none;
+            background: none;
+            color: var(--header-text);
+            transition: color 0.3s;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: var(--form-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: var(--form-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid var(--form-border);
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-text);
+        }
+
+        tr:hover {
+            background-color: var(--table-row-hover);
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        form input, form select, form button {
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 4px;
+            border: 1px solid var(--form-border);
+            width: calc(33.33% - 20px);
+            min-width: 200px;
+            background-color: var(--form-bg);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        form button {
+            background-color: var(--form-button-bg);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: var(--form-button-hover);
+        }
+
+        .delete-btn {
+            background-color: var(--delete-button-bg);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 0.85em;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: var(--delete-button-hover);
+        }
+
+        @media (max-width: 768px) {
+            form input, form select, form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agenda de Servicios</h1>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+    </header>
+
+    <div class="container">
+        <form id="addForm">
+            <input type="date" id="fecha" required>
+            <input type="text" id="dia" placeholder="Día" readonly>
+            <input type="time" id="hora" required>
+            <input type="text" id="cliente" placeholder="Cliente" required>
+            <input type="text" id="lugar" placeholder="Lugar" required>
+            <input type="number" id="personas" placeholder="N° de personas" required>
+            <input type="text" id="pago" placeholder="Pago ($)" required>
+            <select id="empleado" required>
+                <option value="Alejo">Alejo</option>
+                <option value="Naty">Naty</option>
+                <option value="Abraham">Abraham</option>
+                <option value="Bruno">Bruno</option>
+                <option value="Flor">Flor</option>
+            </select>
+            <button type="submit">Agregar</button>
+        </form>
+
+        <table id="agenda">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Día</th>
+                    <th>Hora</th>
+                    <th>Cliente</th>
+                    <th>Lugar</th>
+                    <th>N° Personas</th>
+                    <th>Pago</th>
+                    <th>Empleado</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+    </script>
+</body>
+</html>
